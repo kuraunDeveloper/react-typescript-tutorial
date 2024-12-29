@@ -43,7 +43,7 @@ function App() {
   return (
     <div className="App">
       <button onClick={onClickFetchData}>データ取得</button>
-      {todos.map(todo => <Todo id={todo.id} key={todo.id} name={todo.name} />
+      {todos.map(todo => <Todo id={todo.id} key={todo.id} name={todo.name} email={todo.email}/>
       )}
     </div>
   )
