@@ -1,10 +1,6 @@
-type TodoType = {
-    id: number;
-    name: string;
-    email?: string;
-}
+import { TodoType } from "./types/todo";
 
-export const Todo = (props: TodoType) => {
+export const Todo = (props: Pick<TodoType, "id" | "name" | "email">) => {
     const { id, name, email = '' } = props;
     const emailString : string = email ? email : 'unregistered';
     return (
