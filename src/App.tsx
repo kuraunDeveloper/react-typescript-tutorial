@@ -1,34 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState } from 'react';
+import axios from 'axios';
+import { Todo } from './Todo';
 import './App.css'
 
+type TodoType = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  address: {
+      street: string;
+      suite: string;
+      city: string;
+      zipcode: string;
+      geo: {
+          lat: string;
+          lng: string;
+      };
+  };
+  phone: string;
+  website: string;
+  company: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
+  };
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState<Array<TodoType>>([]);
+  const onClickFetchData = async () => {
+    try {
+      const response = await axios.get<Array<TodoType>>('https://jsonplaceholder.typicode.com/users');
+      const data = response.data;
+      console.log(data);
+      setTodos(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App">
+      <button onClick={onClickFetchData}>データ取得</button>
+      {todos.map(todo => <Todo id={todo.id} key={todo.id} name={todo.name} />
+      )}
+    </div>
   )
 }
 
